@@ -12,6 +12,14 @@ struct bTreeNode
 	int recCount;
 	recType list[bTreeOrder - 1];
 	bTreeNode *children[bTreeOrder];
+	bTreeNode()
+		:recCount(0){}
+	void print()
+	{
+		for(int i=0;i<recCount;i++)
+			cout<<list[i]<<" ";
+		cout<<endl;	
+	}	
 };
 
 template <class recType, int bTreeOrder>
@@ -36,7 +44,8 @@ public:
 	
 	//Add additional members as needed
 	
-protected:
+//protected:
+public:	
 	bTreeNode<recType, bTreeOrder> *root; 
 	
 private:
@@ -44,7 +53,7 @@ private:
 					const recType& item, 
 					bool& found, int& location);
 	void insertBTree(bTreeNode<recType, bTreeOrder> *, const recType&, const recType&, 
-					 bTreeNode<recType,bTreeOrder> *, bool);
+					 bTreeNode<recType,bTreeOrder> *, bool&);
 	void insertNode(bTreeNode<recType, bTreeOrder> *current,
 					const recType& insertItem,
 					bTreeNode<recType, bTreeOrder>* &rightChild,
@@ -131,10 +140,33 @@ void bTree<recType, bTreeOrder>::insert(const recType& insertItem)
 
 template <class recType, int bTreeOrder>
 void bTree<recType, bTreeOrder>::insertBTree
-	(bTreeNode<recType, bTreeOrder> *, const recType&, const recType&, 
-	 bTreeNode<recType,bTreeOrder> *, bool)
+	(bTreeNode<recType, bTreeOrder> * initNode, const recType& insertItem, const recType& median, 
+	 bTreeNode<recType,bTreeOrder> *rightChild, bool &isTaller)
 {
-	cout << "See Programming Exercise 15." << endl;
+	/*Search the tree to see if the key is already in the tree*/
+	bool found;
+	int location=0;
+	cout<<"Valor a insertar: "<<insertItem<<endl;
+	if(root!=NULL){//en caso haya un elemento
+		searchNode(initNode,insertItem,found,location);
+		if(found)
+		{
+			cout<<"El elemento ya está insertado"<<endl;
+			//return;
+		}
+		else
+		{
+			cout<<"La posicion:"<<location<<endl;
+			if(initNode->recCount<bTreeOrder-1)
+				insertNode(initNode,insertItem,rightChild,location);
+		}   
+	}
+	else
+	{
+		//bTreeNode<recType, bTreeOrder>* rightChild=initNode->children[location+1];
+		root=new bTreeNode<recType, bTreeOrder>();
+		insertNode(root,insertItem,rightChild,location);
+	}  
 } //insertBTree
 
 template <class recType, int bTreeOrder>
