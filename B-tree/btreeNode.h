@@ -8,7 +8,7 @@ struct btreeNode {
 	btreeNode *m_children[bTreeOrder];
 	btreeNode()
 	{}
-		~btreeNode();//implementar destructor
+		//~btreeNode();//implementar destructor
 };
 
 #endif
