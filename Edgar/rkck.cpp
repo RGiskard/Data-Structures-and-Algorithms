@@ -14,15 +14,16 @@
 using namespace std;
 
 
-/*
-float fn_ha( float x,float y, float vk[100])
+//Si es un array "float []", float * 
+float  fn_ha( float x,float *y, float *vk)
 {   
 	  //double y[100];
 	  //y[2] = {1.,0.};	
       vk[1] = y[2];
       vk[2] = -4*M_PI*M_PI*y[1];
+
 }
-*/
+
 
 
 double drk_ck(double ne,double x,double dx,double eps,double epa,double y2,double ha)
@@ -32,6 +33,9 @@ int n;
 double y[100];
 double y1[100] = {0.,1.,0.};
 double ai[7] = {0.,0.,1./5.,3./10.,3./5.,1.,7./8.};
+
+map<int,map<int,double>> MatrizBij;
+MatrizBij[0][0]=0;MatrizBij[0][1]=0;
 double bij[7][6] = {{0.,0.,0.,0.,0.,0.},
 	{0.,0.,0.,0.,0.,0.},
 	{0.,1./5.,0.,0.,0.,0.},
@@ -54,7 +58,8 @@ y[2] = y1[2];
 
 float vk[100];
 
-vk[3] = {0.,y[2],-4*M_PI*M_PI*y[1]};
+//vk[3] = {0.,y[2],-4*M_PI*M_PI*y[1]};
+
 
 // Loop over the remaining five steps
       for (int i = 2; i <= 6; i++)
@@ -64,7 +69,7 @@ vk[3] = {0.,y[2],-4*M_PI*M_PI*y[1]};
 		  y[n] = y1[n];	
 			for (int j=1; j<= i-1; j++)
 			{
-			y[n] = y[n] + bij[i][j]*dx*vk[n][j];
+				y[n] = y[n] + bij[i][j]*dx*vk[n][j];
 			}
 		 }
 	  }	
